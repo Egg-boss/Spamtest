@@ -1,13 +1,21 @@
 import discord
 from discord.ext import commands, tasks
 import asyncio
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 # Set up the bot with necessary intents
 intents = discord.Intents.default()
+intents.messages = True
+intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Global variable to store the target channel
-target_channel_id = 1318961284955377664
+target_channel_id = None
 
 @bot.event
 async def on_ready():
@@ -17,7 +25,7 @@ async def on_ready():
 @bot.command(name="setchannel")
 async def set_channel(ctx, channel_id: int):
     global target_channel_id
-    target_channel_id = 1318961284955377664
+    target_channel_id = channel_id
     await ctx.send(f"Target channel set to <#{channel_id}>.")
 
 # Command to start spamming the target channel
@@ -46,4 +54,4 @@ async def stop(ctx):
     await bot.close()
 
 # Run the bot with your token
-bot.run("user_token")
+bot.run(TOKEN)
