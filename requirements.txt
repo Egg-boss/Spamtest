@@ -7,3 +7,5 @@ gunicorn>=20.0
 requests>=2.0
 
 python-dotenv
+
+pip install -U discord.py
